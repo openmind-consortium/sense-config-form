@@ -1,0 +1,380 @@
+{
+    "title": "Patient-facing/sense configuration schema",
+    "description": "v1.0.0",
+    "type": "object",
+    "properties": {
+        "eventType": {
+            "description": "event name to use to log to .json files",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                }
+            }
+
+        },
+        "Mode": {
+            "type": "number"
+        },
+        "Ratio": {
+            "type": "number"
+        },
+        "SenseOptions": {
+            "description": "lets you set what to sense",
+            "type": "object",
+            "properties": {
+                "TimeDomain": {
+                    "type": "boolean"
+                },
+                "FFT": {
+                    "type": "boolean"
+                },
+                "Power": {
+                    "type": "boolean"
+                },
+                "LD0": {
+                    "type": "boolean"
+                },
+                "LD1": {
+                    "type": "boolean"
+                },
+                "AdaptiveState": {
+                    "type": "boolean"
+                },
+                "LoopRecording": {
+                    "type": "boolean"
+                },
+                "Unused": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "StreamEnables": {
+            "description": "lets you set what to stream",
+            "type": "object",
+            "properties": {
+                "TimeDomain": {
+                    "type": "boolean"
+                },
+                "FFT": {
+                    "type": "boolean"
+                },
+                "Power": {
+                    "type": "boolean"
+                },
+                "Accelerometry": {
+                    "type": "boolean"
+                },
+                "AdaptiveTherapy": {
+                    "type": "boolean"
+                },
+                "AdaptiveState": {
+                    "type": "boolean"
+                },
+                "EventMarker": {
+                    "type": "boolean"
+                },
+                "TimeStamp": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "Sense": {
+            "description": "No more than two channels can be on a single bore. When configuring, channels on first bore will always be first. Can only have sampling rates of: 250, 500, and 1000 (Hz) or disable it by setting IsDisabled to true. Stage one low pass(Lpf1) can only be: 450, 100, or 50 (Hz). Stage two low pass(Lpf2) can only be: 1700, 350, 160, or 100 (Hz). High pass(Hpf) can only be: 0.85, 1.2, 3.3, or 8.6 (Hz), Inputs[ anode(positive), cathode(negative) ], tdEvokedResponseEnable can either be 0 for standard, 16 for evoked 0 or 32 for evoked 1",
+            "type": "object",
+            "properties": {
+                "TDSampleRate": {
+                    "type": "integer",
+                    "enum": [250,500,1000]
+                },
+                "TimeDomains": {
+                    "type": "array",
+                    "items": { 
+                        "type": "object",
+                        "properties": {
+                            "IsEnabled": {
+                                "type": "boolean"
+                            },
+                            "Hpf": {
+                                "type": "number",
+                                "enum": [0.85,1.2,3.3,8.6]
+                            },
+                            "Lpf1": {
+                                "type": "integer",
+                                "enum": [50,100,450]
+                            },
+                            "Lpf2": {
+                                "type": "integer",
+                                "enum": [100,160,350,1700]
+                            },
+                            "Inputs": {
+                                "type": "array",
+                                "items": [
+                                    {
+                                        "type": "integer",
+                                        "enum": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                                    },
+                                    {
+                                        "type": "integer",
+                                        "enum": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                                    }  
+                                ], 
+                                "additionalItems": false
+                            },
+                            "TdEvokedResponseEnable": {
+                                "type": "integer",
+                                "enum": [0,16,32]
+                            }
+                        }
+                    }
+                },
+                "FFT": {
+                    "description": "FFT Size can be: 64, 256, or 1024 samples, Hanning window load can be: 25, 50, or 100 (%), channel is for the fft channel must be between 0-3 and time domain must be enabled for that channel, WeightMultiplies can be shift: 0-7",
+                    "type": "object",
+                    "properties":{
+                        "Channel": {
+                            "type": "integer",
+                            "enum": [0,1,2,3]
+                        },
+                        "FftSize": {
+                            "type": "integer",
+                            "enum": [64,256,1024]
+                        },
+                        "FftInterval": {
+                            "type": "number"
+                        },
+                        "WindowLoad": {
+                            "type": "integer",
+                            "enum": [25,50,100]
+                        },
+                        "StreamSizeBins": {
+                            "type": "number"
+                        },
+                        "StreamOffsetBins": {
+                            "type": "number"
+                        },
+                        "WindowEnabled": {
+                            "type": "boolean"
+                        },
+                        "WeightMultiplies": {
+                            "type": "integer",
+                            "enum": [0,1,2,3,4,5,6,7]
+                        }
+                    }
+                },
+                "PowerBands": {
+                    "description": "each power band can be set from 0-250hz, 2 pos bands per channel. Ex: ChNPowerBandN:[lower, upper]",
+                    "type": "array",
+                    "items": [
+                        {
+                            "type": "object",
+                            "description": "Channel: 0 PowerBand: 0",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "description": "Channel: 0 PowerBand: 1",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "description": "Channel: 1 PowerBand: 0",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "description": "Channel: 1 PowerBand: 1",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                        ,{
+                            "type": "object",
+                            "description": "Channel: 2 PowerBand: 0",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                        ,{
+                            "type": "object",
+                            "description": "Channel: 2 PowerBand: 1",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                        ,{
+                            "type": "object",
+                            "description": "Channel: 3 PowerBand: 0",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                        ,{
+                            "type": "object",
+                            "description": "Channel: 3 PowerBand: 1",
+                            "properties": {
+                                "ChannelPowerBand": {
+                                    "type": "array",
+                                    "items": [
+                                        {
+                                            "type": "number"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ],
+                                    "additionalItems": false
+                                },
+                                "IsEnabled": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    ],
+                    "additionalItems": false 
+                },
+                "Accelerometer": {
+                    "description": "Can be 4,8,16,32,64Hz or set SampleRateDisabled to true for disabled",
+                    "type": "object",
+                    "properties": {
+                        "SampleRateDisabled": {
+                            "type": "boolean"
+                        },
+			            "SampleRate": {
+                            "type": "integer",
+                            "enum": [4,8,16,32,64]
+                        }
+                    }
+                },
+                "Misc": {
+                    "description": "stream rate can be 30-100 by tens and is in ms; LoopRecordingTriggersState can be 0-8 or can be disabled by changing IsEnabled to false; Bridging can be 0 = None, 1 = Bridge 0-2 enabled, 2 = Bridge 1-3 enabled",
+                    "type": "object",
+                    "properties": {
+                        "StreamingRate": {
+                            "type": "integer",
+                            "enum": [30,40,50,60,70,80,90,100]
+                        },
+			            "LoopRecordingTriggersState": {
+                            "type": "integer",
+                            "enum": [0,1,2,3,4,5,6,7,8]
+                        },
+			            "LoopRecordingTriggersIsEnabled": {
+                            "type": "boolean"
+                        },
+			            "LoopRecordingPostBufferTime": {
+                            "type": "number"
+                        },
+			            "Bridging": {
+                            "type": "integer",
+                            "enum": [0,1,2]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
