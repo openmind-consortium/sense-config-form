@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "Accelerometer": {
+            "type": "object",
+            "properties": {
+                "SampleRateDisabled": {
+                    "type": "boolean"
+                },
+                "SampleRate": {
+                    "type": "integer",
+                    "enum": [4,8,16,32,64]
+                }
+            }
+        }
+
+    }
+}

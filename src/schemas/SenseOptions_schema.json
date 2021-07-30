@@ -1,0 +1,36 @@
+{
+    "type": "object",
+    "properties": {
+        "SenseOptions": {
+            "type": "object",
+            "description": "lets you set what to sense",
+            "properties": {
+                "TimeDomain": {
+                    "type": "boolean"
+                },
+                "FFT": {
+                    "type": "boolean"
+                },
+                "Power": {
+                    "type": "boolean"
+                },
+                "LD0": {
+                    "type": "boolean"
+                },
+                "LD1": {
+                    "type": "boolean"
+                },
+                "AdaptiveState": {
+                    "type": "boolean"
+                },
+                "LoopRecording": {
+                    "type": "boolean"
+                },
+                "Unused": {
+                    "type": "boolean"
+                }
+            }
+        }
+        
+    }
+}

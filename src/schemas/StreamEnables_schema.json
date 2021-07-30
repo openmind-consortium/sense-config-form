@@ -1,0 +1,35 @@
+{
+    "type": "object",
+    "properties": {
+        "StreamEnables": {
+            "type": "object",
+            "description": "lets you set what to stream",
+            "properties": {
+                "TimeDomain": {
+                    "type": "boolean"
+                },
+                "FFT": {
+                    "type": "boolean"
+                },
+                "Power": {
+                    "type": "boolean"
+                },
+                "Accelerometry": {
+                    "type": "boolean"
+                },
+                "AdaptiveTherapy": {
+                    "type": "boolean"
+                },
+                "AdaptiveState": {
+                    "type": "boolean"
+                },
+                "EventMarker": {
+                    "type": "boolean"
+                },
+                "TimeStamp": {
+                    "type": "boolean"
+                }
+    }
+        
+    }
+}}

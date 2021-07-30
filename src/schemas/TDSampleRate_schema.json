@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "TDSampleRate": {
+            "type": "integer",
+            "enum": [250,500,1000]
+        }
+    }
+}

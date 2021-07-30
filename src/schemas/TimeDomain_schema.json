@@ -1,0 +1,43 @@
+{
+      "type": "object",
+      
+      "properties": {
+        "IsEnabled": {
+          "type": "boolean"
+        },
+        "Hpf": {
+          "type": "number",
+          "enum": [0.85, 1.2, 3.3, 8.6]
+        },
+        "Lpf1": {
+          "type": "integer",
+          "enum": [50, 100, 450]
+        },
+        "Lpf2": {
+          "type": "integer",
+          "enum": [100, 160, 350, 1700]
+        },
+        "Inputs": {
+          "type": "array",
+          "items": [
+            {
+              "type": "integer",
+              "description": "anode(positive)",
+              "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            },
+            {
+              "type": "integer",
+              "description": "cathode(negative)",
+              "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            }
+          ],
+          "additionalItems": false
+        },
+        "TdEvokedResponseEnable": {
+          "description": "0 for standard, 16 for evoked 0, 32 for evoked 1",
+          "type": "integer",
+          "enum": [0, 16, 32]
+        }
+      }
+    }
+
