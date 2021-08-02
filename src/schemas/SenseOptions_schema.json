@@ -29,7 +29,8 @@
                 "Unused": {
                     "type": "boolean"
                 }
-            }
+            },
+            "required": ["TimeDomain","FFT","Power","LD0","LD1","AdaptiveState","LoopRecording","Unused"]
         }
         
     }

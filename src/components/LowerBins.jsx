@@ -21,8 +21,8 @@ const calculateLowerBins = (tdSampleRate, fftSize) => {
 const LowerBins = ({ fftSize, tdSampleRate }) => (
   <NewWindow>
     <h1>Lower Bin</h1>
-<h5>Fft Size: {fftSize}</h5>
-<h5>TD Sample Rate: {tdSampleRate}</h5>
+    <h5>Fft Size: {fftSize}</h5>
+    <h5>TD Sample Rate: {tdSampleRate}</h5>
     <Table striped bordered hover size="sm">
       <thead>
         <tr>
@@ -31,12 +31,13 @@ const LowerBins = ({ fftSize, tdSampleRate }) => (
         </tr>
       </thead>
       <tbody>
-        {calculateLowerBins(tdSampleRate,fftSize).map((band,index)=>{
-            return(
+        {calculateLowerBins(tdSampleRate, fftSize).map((band, index) => {
+          return (
             <tr key={index}>
-                <td>{index}</td>
-                <td>{band}</td>
-            </tr>)
+              <td>{index}</td>
+              <td>{band}</td>
+            </tr>
+          );
         })}
       </tbody>
     </Table>

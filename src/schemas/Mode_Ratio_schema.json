@@ -7,5 +7,6 @@
         "Ratio": {
             "type": "number"
         }
-    }
+    },
+    "required":["Mode", "Ratio"]
 }

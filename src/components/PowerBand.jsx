@@ -9,7 +9,7 @@ function PowerBand({changeData, input, index, number}) {
     
         <div>
             <h5>PowerBand {number}</h5>
-            <Form schema={schema} children={true} formData={input} onChange={e=>changeData(e.formData, index)}/>
+            <Form schema={schema} children={true} liveValidate showErrorList={false} formData={input} onChange={e=>changeData(e.formData, index)}/>
         </div>
 
     );

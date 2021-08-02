@@ -1,23 +1,23 @@
 {
-            "type": "object",
-            "properties": {
-                "IsEnabled": {
-                    "type": "boolean"
-                },
-                "ChannelPowerBand": {
-                    "type": "array",
-                    "items": [
-                        {
-                            "description": "Lower bin (index)",
-                            "type": "integer"
-                        },
-                        {
-                            "description": "Upper bin (index)",
-                            "type": "integer"
-                        }
-                    ],
-                    "additionalItems": false
-                }
-                
-            }
+  "type": "object",
+  "properties": {
+    "IsEnabled": {
+      "type": "boolean"
+    },
+    "ChannelPowerBand": {
+      "type": "array",
+      "items": [
+        {
+          "description": "Lower bin (index)",
+          "type": "integer"
+        },
+        {
+          "description": "Upper bin (index)",
+          "type": "integer"
+        }
+      ],
+      "additionalItems": false
+    }
+  },
+  "required": ["IsEnabled", "ChannelPowerBand"]
 }

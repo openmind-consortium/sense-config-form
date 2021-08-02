@@ -19,7 +19,7 @@ function TimeDomain({changeData, input, index}) {
     return (
         <div style={{padding: '30px'}}>
             <h3>Time Domain {index}</h3>
-            <Form schema={schema} children={true} uiSchema={uiSchema} formData={input} onChange={e=>changeData(e.formData, index)}/>
+            <Form schema={schema} children={true} uiSchema={uiSchema} liveValidate showErrorList={false} formData={input} onChange={e=>changeData(e.formData, index)}/>
         </div>
     );
 }

@@ -1,6 +1,5 @@
 {
       "type": "object",
-      
       "properties": {
         "IsEnabled": {
           "type": "boolean"
@@ -38,6 +37,7 @@
           "type": "integer",
           "enum": [0, 16, 32]
         }
-      }
+      },
+      "required": ["IsEnabled", "Hpf","Lpf1","Lpf2","Inputs","TdEvokedResponseEnable"]
     }
 

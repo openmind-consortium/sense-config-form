@@ -1,26 +1,36 @@
 import React from "react";
 import { Form, Container, Button } from "react-bootstrap";
 
-function UploadFile({updateFile}) {
-    const [file,setFile] = React.useState(null)
-    const [fileName, setFileName] = React.useState(null)
-    const handleSubmit = (e) => {
-        // Only accept json files
-        if (e.target.files[0].type==="application/json"){
-          console.log(e)
-          // Read json file
-          const fileReader = new FileReader();
-          setFileName(e.target.files[0].name)
-          fileReader.readAsText(e.target.files[0], "UTF-8");
-          fileReader.onload = e => {
+var Validator = require("jsonschema").Validator;
+var v = new Validator();
+const master_schema = require("../schemas/sense_config_schema.json");
+
+function UploadFile({ updateFile }) {
+  const [file, setFile] = React.useState(null);
+  const [fileName, setFileName] = React.useState(null);
+  const handleSubmit = (e) => {
+    // Only accept json files
+    if (e.target.files[0].type === "application/json") {
+      // Set file name
+      setFileName(e.target.files[0].name);
+      // Read json file
+      const fileReader = new FileReader();
+      fileReader.readAsText(e.target.files[0], "UTF-8");
+      fileReader.onload = (e) => {
+        // Get JSON data
+        const json = JSON.parse(e.target.result);
+        // Validate against master schema
+        if (v.validate(json, master_schema).errors.length === 0) {
+          // Upload success
           setFile(JSON.parse(e.target.result));
-        };
+        } else {
+          window.alert("JSON file not valid");
         }
-        else {
-          window.alert("Not a JSON file")
-        }
-        
+      };
+    } else {
+      window.alert("Not a JSON file");
     }
+  };
 
   return (
     <Container style={{ paddingTop: "60px" }}>
@@ -35,11 +45,16 @@ function UploadFile({updateFile}) {
       >
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>Sense JSON file</Form.Label>
-          <Form.Control type="file" onChange={e=>handleSubmit(e)}/>
+          <Form.Control type="file" onChange={(e) => handleSubmit(e)} />
         </Form.Group>
-        <Button variant="success" style={{ margin: "20px" }} disabled={file===null} onClick={()=>{
-            if (file)
-              updateFile(file, fileName)}}>
+        <Button
+          variant="success"
+          style={{ margin: "20px" }}
+          disabled={file === null}
+          onClick={() => {
+            if (file) updateFile(file, fileName);
+          }}
+        >
           Submit
         </Button>
       </Container>

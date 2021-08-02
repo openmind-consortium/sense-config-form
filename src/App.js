@@ -10,6 +10,12 @@ import UploadFile from "./components/UploadFile";
 
 import "./App.css";
 
+// Schema validator
+var Validator = require("jsonschema").Validator;
+var v = new Validator();
+// Master schema
+const master_schema = require("./schemas/sense_config_schema.json");
+
 // Default sense for initial load
 const defaultSense = {
   Sense: {
@@ -25,6 +31,7 @@ const defaultSense = {
 function App() {
   // The form with all values
   const [formData, setFormData] = React.useState(defaultSense);
+  // Uploaded file name
   const [fileName, setFileName] = React.useState("sense");
   // Sample rate and fft size for bin calculations
   const [tdSampleRate, setSampleRate] = React.useState(1000);
@@ -47,16 +54,17 @@ function App() {
     false,
     false,
   ]);
-
   // Popup window for upper and lower bins
   const [showLowerBins, setShowLowerBins] = React.useState(false);
   const [showUpperBins, setShowUpperBins] = React.useState(false);
   // Dropdown for file upload
   const [showUploadFile, setShowUploadFile] = React.useState(false);
-
-  // Updates form when uploaded, updates relevant state variables
+  // Show download button and download link
+  const [downloadHref, setHref] = React.useState('')
+  const [downLoadDisabled, setDownloadDisabled] = React.useState(true)
+  // Function called when an uploaded form is submitted
   const uploadForm = (inputForm, inputName) => {
-    console.log(inputForm);
+    // Sets the enabled TD and powerbands
     setTdEnabled([
       inputForm.Sense.TimeDomains[0].IsEnabled,
       inputForm.Sense.TimeDomains[1].IsEnabled,
@@ -73,18 +81,32 @@ function App() {
       inputForm.Sense.PowerBands[6].IsEnabled,
       inputForm.Sense.PowerBands[7].IsEnabled,
     ]);
+    // Sets the new sample rate and fft size
     setSampleRate(inputForm.Sense.TDSampleRate);
     setFftSize(inputForm.Sense.FFT.FftSize);
+    // Overwrites formData
     setFormData(inputForm);
+    // Hide upload file dropdown
     setShowUploadFile(false);
+    // Updates file name
     setFileName(inputName);
+    // Requires revalidation
+    setDownloadDisabled(true)
   };
 
-  // Download formData as json file
-  const handleDownload = () => {
-    console.log(formData);
-    console.log(fileName);
-  };
+  const validate = () => {
+    // Validates formData to the schema
+    if (v.validate(formData, master_schema).errors.length===0){
+      // If validated, allow download and update download link
+      setDownloadDisabled(false)
+      setHref(`data:text/json;charset=utf-8,${encodeURIComponent(
+        JSON.stringify(formData)
+      )}`)
+    }
+    else {
+      window.alert("There are some required fields missing")
+    }
+  }
 
   // Data update for General and Sensing section
   const changeData = (data, sense) => {
@@ -97,6 +119,8 @@ function App() {
     } else {
       setFormData(data);
     }
+    // Requires revalidation
+    setDownloadDisabled(true)
   };
 
   // Data update for time domain data
@@ -108,6 +132,8 @@ function App() {
       newTdEnabled[index] = data.IsEnabled;
       setTdEnabled(newTdEnabled);
     }
+    // Requires revalidation
+    setDownloadDisabled(true)
   };
 
   // Data update for powerbands data
@@ -119,18 +145,21 @@ function App() {
       newPbEnabled[index] = data.IsEnabled;
       setPbEnabled(newPbEnabled);
     }
+    // Requires revalidation
+    setDownloadDisabled(true)
   };
 
   return (
     <Container fluid>
       <NavBar
-        onDownload={handleDownload}
         onUpload={() => {
           setShowUploadFile(!showUploadFile);
           window.scrollTo(0, 0);
         }}
-        json={formData}
         fileName={fileName}
+        onValidate={validate}
+        downloadHref={downloadHref}
+        downLoadDisabled={downLoadDisabled}
       />
       {/* Upload file dropdown */}
       {showUploadFile ? <UploadFile updateFile={uploadForm} /> : ""}
