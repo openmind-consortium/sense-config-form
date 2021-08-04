@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import LowerBins from "./components/LowerBins";
 import UpperBins from "./components/UpperBins";
 import UploadFile from "./components/UploadFile";
+import FileName from "./components/FileName";
 
 import "./App.css";
 
@@ -60,8 +61,8 @@ function App() {
   // Dropdown for file upload
   const [showUploadFile, setShowUploadFile] = React.useState(false);
   // Show download button and download link
-  const [downloadHref, setHref] = React.useState('')
-  const [downLoadDisabled, setDownloadDisabled] = React.useState(true)
+  const [downloadHref, setHref] = React.useState("");
+  const [downLoadDisabled, setDownloadDisabled] = React.useState(true);
   // Function called when an uploaded form is submitted
   const uploadForm = (inputForm, inputName) => {
     // Sets the enabled TD and powerbands
@@ -91,22 +92,30 @@ function App() {
     // Updates file name
     setFileName(inputName);
     // Requires revalidation
-    setDownloadDisabled(true)
+    setDownloadDisabled(true);
   };
 
   const validate = () => {
     // Validates formData to the schema
-    if (v.validate(formData, master_schema).errors.length===0){
-      // If validated, allow download and update download link
-      setDownloadDisabled(false)
-      setHref(`data:text/json;charset=utf-8,${encodeURIComponent(
-        JSON.stringify(formData)
-      )}`)
+    if (v.validate(formData, master_schema).errors.length === 0) {
+      // Validates file name
+      if (fileName.length > 5 && fileName.endsWith(".json")) {
+        // If validated, allow download and update download link
+        setDownloadDisabled(false);
+        setHref(
+          `data:text/json;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(formData)
+          )}`
+        );
+        window.confirm(`Please comfirm your file name: ${fileName}`);
+      }
+      else{
+        window.alert("File name not valid")
+      }
+    } else {
+      window.alert("There are some required fields missing");
     }
-    else {
-      window.alert("There are some required fields missing")
-    }
-  }
+  };
 
   // Data update for General and Sensing section
   const changeData = (data, sense) => {
@@ -120,7 +129,7 @@ function App() {
       setFormData(data);
     }
     // Requires revalidation
-    setDownloadDisabled(true)
+    setDownloadDisabled(true);
   };
 
   // Data update for time domain data
@@ -133,7 +142,7 @@ function App() {
       setTdEnabled(newTdEnabled);
     }
     // Requires revalidation
-    setDownloadDisabled(true)
+    setDownloadDisabled(true);
   };
 
   // Data update for powerbands data
@@ -146,7 +155,13 @@ function App() {
       setPbEnabled(newPbEnabled);
     }
     // Requires revalidation
-    setDownloadDisabled(true)
+    setDownloadDisabled(true);
+  };
+
+  const updateFileName = (data) => {
+    setFileName(data);
+    // Requires revalidation
+    setDownloadDisabled(true);
   };
 
   return (
@@ -169,6 +184,7 @@ function App() {
         <Container className="main-window">
           {/* 1st column */}
           <Container>
+            <FileName fileName={fileName} onChange={updateFileName} />
             <FormComponent
               schema={require("./schemas/Mode_Ratio_schema.json")}
               changeData={changeData}

@@ -10,7 +10,7 @@ function UploadFile({ updateFile }) {
   const [fileName, setFileName] = React.useState(null);
   const handleSubmit = (e) => {
     // Only accept json files
-    if (e.target.files[0].type === "application/json") {
+    if (e.target.files[0] && e.target.files[0].type === "application/json") {
       // Set file name
       setFileName(e.target.files[0].name);
       // Read json file
