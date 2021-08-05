@@ -8,6 +8,7 @@
                     "type": "boolean"
                 },
                 "SampleRate": {
+                    "description":"(Hz)",
                     "type": "integer",
                     "enum": [4,8,16,32,64]
                 }
