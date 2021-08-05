@@ -274,6 +274,7 @@ function App() {
               Upper Bins
             </Button>
           </Container>
+          <p style={{padding:'15px'}}>No more than two channels can be on a single bore. When configuring, channels on first bore will always be first.</p>
           <Container style={{ display: "flex" }}>
             {/* Time Domain 0 */}
             <Container
