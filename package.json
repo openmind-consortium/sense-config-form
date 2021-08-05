@@ -2,7 +2,7 @@
   "name": "sense-config-form",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://openmind-consortium.github.io/sense-config-form",
+  "homepage": ".",
   "dependencies": {
     "@rjsf/core": "^3.0.0",
     "@testing-library/jest-dom": "^5.11.4",
