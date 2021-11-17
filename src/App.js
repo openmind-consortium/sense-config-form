@@ -97,7 +97,17 @@ function App() {
 
   const validate = () => {
     // Validates formData to the schema
+    console.log(formData)
     if (v.validate(formData, master_schema).errors.length === 0) {
+      // Validates powerband for TD if disabled
+      for(var i=0;i<formData.Sense.TimeDomains.length;i++){
+        if (formData["Sense"]["TimeDomains"][i].IsEnabled===false){
+          if(formData["Sense"]["PowerBands"][i*2].IsEnabled===true || formData["Sense"]["PowerBands"][i*2+1].IsEnabled===true ) {
+            window.alert("Some Powerbands are enabled for TD channels that are not enabled")
+            return
+          } 
+        }
+      }
       // Validates file name
       if (fileName.length > 5 && fileName.endsWith(".json")) {
         // If validated, allow download and update download link
@@ -136,10 +146,20 @@ function App() {
   const updateTimeDomain = (data, index) => {
     if (data) {
       formData["Sense"]["TimeDomains"][index] = data;
+      
       // Checks if enabled and updates the array
       var newTdEnabled = [...tdEnabled];
       newTdEnabled[index] = data.IsEnabled;
       setTdEnabled(newTdEnabled);
+      // Update power bands if corresponding TD is turned off
+      if (data.IsEnabled===false){
+        formData["Sense"]["PowerBands"][index*2] = {...formData["Sense"]["PowerBands"][index*2], IsEnabled: false}
+        formData["Sense"]["PowerBands"][index*2+1] = {...formData["Sense"]["PowerBands"][index*2+1], IsEnabled: false}
+        var newPbEnabled = [...pbEnabled]
+        newPbEnabled[index*2]=false
+        newPbEnabled[index*2+1]=false
+        setPbEnabled(newPbEnabled)
+      }
     }
     // Requires revalidation
     setDownloadDisabled(true);
